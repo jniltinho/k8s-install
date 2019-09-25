@@ -14,7 +14,7 @@
 ## 1 Server Node2: Ubuntu 18.04, 2CPUs, 4GB RAM, 20GB HD, 64bits
 
 ## Install Docker
-apt-get update && apt-get upgrade
+apt-get update && apt-get upgrade -y
 apt-get -y install apt-transport-https ca-certificates curl software-properties-common docker.io socat
 
 cat > /etc/docker/daemon.json <<EOF
@@ -72,6 +72,7 @@ cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
 
 ## Fix Helm install error
+cd /tmp/
 wget https://docs.projectcalico.org/v3.9/manifests/calico.yaml
 sed -i 's|192.168.0.0/16|172.16.0.0/16|' calico.yaml
 kubectl apply -f calico.yaml
