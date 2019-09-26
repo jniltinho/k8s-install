@@ -67,6 +67,11 @@ systemctl enable --now kubelet
 
 ## Master Server
 kubeadm init --pod-network-cidr=172.16.0.0/16 --apiserver-advertise-address=$(hostname -I | awk '{print $1}')
+
+### For AWS/Azure External IP/DNS
+## kubeadm init --pod-network-cidr=172.16.0.0/16 --apiserver-advertise-address=$(hostname -I | awk '{print $1}') \ 
+##  --apiserver-cert-extra-sans=10.132.207.117,k8s.mydomain.com
+
 mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
@@ -79,6 +84,5 @@ kubectl apply -f calico.yaml
 rm -f calico.yaml
 
 
+## Join in Nodes
 
-## Join in Node1 and Node2
-kubeadm join 192.168.200.100:6443 --token 5snyqq.xxxxx --discovery-token-ca-cert-hash sha256:xxxxx
