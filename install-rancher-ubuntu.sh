@@ -10,24 +10,15 @@
 apt-get update && apt-get upgrade
 apt-get -y install apt-transport-https ca-certificates curl software-properties-common docker.io socat
 
-cat > /etc/docker/daemon.json <<EOF
-{
-  "exec-opts": ["native.cgroupdriver=systemd"],
-  "log-driver": "json-file",
-  "log-opts": {
-    "max-size": "100m"
-  },
-  "storage-driver": "overlay2",
-  "storage-opts": [
-    "overlay2.override_kernel_check=true"
-  ]
-}
-EOF
-
 # Restart Docker
-mkdir -p /etc/systemd/system/docker.service.d
-systemctl daemon-reload && systemctl enable docker && systemctl restart docker
+systemctl enable docker
+systemctl restart docker
+
+## Disable SWAP, disable in /etc/fstab
+## sed -i '/ swap / s/^/#/' /etc/fstab
+swapon -s && swapoff -a
+sed -i 's/.*swap.*/#&/' /etc/fstab
 
 
-mkdir -p /var/nfs/rancher
-docker run -d --restart=unless-stopped -p 8585:80 -p 8443:443 -v /var/nfs/rancher:/var/lib/rancher rancher/rancher:latest
+mkdir -p /opt/rancher
+docker run -d --restart=unless-stopped -p 8585:80 -p 8443:443 -v /opt/rancher:/var/lib/rancher rancher/rancher:latest
