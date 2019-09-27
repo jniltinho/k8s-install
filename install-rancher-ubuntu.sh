@@ -7,7 +7,7 @@
 ## 1 Server Node1: Ubuntu 18.04, 2CPUs, 4GB RAM, 20GB HD, 64bits
 
 ## Install Docker
-apt-get update && apt-get upgrade
+apt-get update && apt-get upgrade -y
 apt-get -y install apt-transport-https ca-certificates curl software-properties-common docker.io socat
 
 # Restart Docker
