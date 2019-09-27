@@ -22,3 +22,12 @@ sed -i 's/.*swap.*/#&/' /etc/fstab
 
 mkdir -p /opt/rancher
 docker run -d --restart=unless-stopped -p 8585:80 -p 8443:443 -v /opt/rancher:/var/lib/rancher rancher/rancher:latest
+
+
+## Limpar o Ambiente
+# docker stop $(docker ps -a -q)
+# docker rmi -f $(docker images -q)
+# docker rm -f $(docker ps -qa)
+# docker volume rm $(docker volume ls -q)
+# cleanupdirs="/opt/rancher /var/lib/etcd /var/lib/rancher /etc/kubernetes /etc/cni /opt/cni /var/lib/cni /var/run/calico /opt/rke /var/log/containers" 
+# for dir in $cleanupdirs; do rm -rf $dir; done
